@@ -63,7 +63,56 @@ The server will provide you with a token with a validity of 1 minute, and a refr
 The username is 'username' and the password is 'password'.
 
 ## API Endpoints
-Coming soon...
+This project includes an API with which a frontend can interact.
+
+### `POST /login`
+In order to be able to authenticate against the server you first have to send an `Authorization` header with basic set on it: `Basic dXNlcm5hbWU6cGFzc3dvcmQ=`, pass your `username` (with value 'username') and `password` (with value 'password') to the `/login` endpoint, using the `POST` request method. The server will respond with a set of two `tokens`, one for normal consumption and another one to refresh the prior.
+
+#### Query params
+##### `username`
+Set this value to be 'username'.
+##### `password`
+Set this value to be 'password'.
+
+### `POST /refresh`
+Send a `POST` request and pass in the refresh token via query params. The server will check if the refresh token is valid, if so, will issue another access token and respond with a set of two tokens, one for normal use and another one to refresh the prior.
+
+#### Query params
+##### `token`
+The normal token.
+
+### `POST /search`
+This endpoint will allow you to perform searches by using Google Custom Search Engine API.
+
+#### Query params
+##### `cat`
+This is just a category or keyword to further filter the search results.
+##### `query`
+This will contain the search query that is going to be passed to Google Custom Search Engine API.
+
+### `POST /event`
+This endpoint will allow you to directly send formatted messages using the Slack API. This is intended in case there is further integration with a frontend.
+
+#### Query params
+##### `thumbnail`
+A thumbnail URL.
+##### `description`
+A description for the chat message.
+##### `url`
+The URL pointing to the current search result.
+##### `cat`
+The category of the search, just a keyword.
+##### `query`
+The search query.
+
+## Token validity
+There are two types of tokens, a normal token used to perform a request to the server and a refresh token, used to refresh the normal token. Tokens are intended to be saved on a local storage structure on your frontend, that way you can easily have access to them and use them to validate your identity with the server without having to send the username and password with every request.
+
+### Normal token
+The normal token has a validity of 1 minute since the moment it was generated.
+
+### Refresh token
+The refresh token has a validity of one year since the moment you generated it.
 
 ## Contributions
 Feel free to contribute with any crazy idea you think can make this project even more useful for the community. Cheers!
