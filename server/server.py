@@ -321,9 +321,6 @@ This route is not protected.
 
 This route takes in a category and a criteria via query
 params.
-
-API key = AIzaSyA42kj00GzSUGoL7PvJsC06vv1PLZ_-lPc
-CSEId = 002088197492505246331:aozogqxuyy4
 ************************************************* """
 def build_cse(cat='', query='', limit=4):
     api_key = app.config['GOOGLE_API_KEY']
