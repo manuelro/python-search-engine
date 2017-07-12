@@ -53,6 +53,8 @@ This flag should contain Google Custom Search Engine ID.
 --googlecse 0020887974925052946331:aozogqxuyy4
 ```
 
+*All the tokens and ids provided in this example have been modified for security reasons*
+
 ## Giving the app a try
 The app will start running on localhost on port 5000, you can use Postman to test the API.
 
