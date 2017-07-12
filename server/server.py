@@ -324,9 +324,21 @@ params.
 ************************************************* """
 def build_cse(cat='', query='', limit=4):
     api_key = app.config['GOOGLE_API_KEY']
+    service_name = 'customsearch'
+    service = build(service_name, 'v1', developerKey=api_key)
     cse_id = app.config['GOOGLE_CSE_ID']
-    service = build('customsearch', 'v1', developerKey=api_key)
     return service.cse().list(q=cat + query, num=limit, cx=cse_id, searchType="image")
+
+def build_yt(cat='', query='', limit=1):
+    api_key = app.config['GOOGLE_API_KEY']
+    service_name = 'youtube'
+    api_version = 'v3'
+    service = build(service_name, api_version, developerKey=api_key)
+    return service.search().list(
+        q = cat + query,
+        part = 'id, snippet',
+        maxResults = 1
+    )
 
 class Search(Resource):
     method_decorators = [authenticate]
@@ -341,9 +353,11 @@ class Search(Resource):
             query = ''
         try:
             cse_results = build_cse(cat, query).execute()
+            yt_results = build_yt(cat, query).execute()
+
             send_slack_search_message(request)
 
-            return cse_results['items'], 200
+            return { 'images': cse_results['items'], 'videos': yt_results['items'] }, 200
         except:
             return message_gen('Unable to perform search', 403)
 

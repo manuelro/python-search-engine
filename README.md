@@ -90,8 +90,26 @@ This is just a category or keyword to further filter the search results.
 ##### `query`
 This will contain the search query that is going to be passed to Google Custom Search Engine API.
 
+#### Server response
+If everything goes well the server should respond with a `200` response code.
+
+By default this little search engine will respond with a JSON file with two collections: `videos` and `images`. Therefore it you have to enable YouTube service in your project (see [Google Developer Console](https://console.developers.google.com) for that).
+
+The structure of the response is as follows:
+```json
+{
+  "images": [],
+  "videos": [],
+}
+```
+
+In case the request did not fullfill the server requirements, this will return a `403` error code. You can handle this accordingly from the frontend.
+
 ### `POST /event`
 This endpoint will allow you to directly send formatted messages using the Slack API. This is intended in case there is further integration with a frontend.
+
+#### Response
+By default the server will return a JSON object with two collections: videos and images. Therefore you will have enable the YouTube service for your project
 
 #### Query params
 ##### `thumbnail`
