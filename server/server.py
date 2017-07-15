@@ -9,6 +9,7 @@ from googleapiclient.discovery import build
 from pymongo import MongoClient
 import optparse
 import sys
+from flask_cors import CORS, cross_origin
 
 parser = optparse.OptionParser()
 parser.add_option('--mongourl', action='store', dest='mongodb_url', help='MongoDB URL')
@@ -42,6 +43,7 @@ To keep data private, use the os.environ library to
 access to this info passed by flags.
 ************************************************* """
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST"]}})
 
 # Used to encode/decode the JWT token
 app.config['SECRET_KEY'] = 'somesecretkey'
@@ -63,9 +65,6 @@ app.config['GOOGLE_API_KEY'] = options.google_key
 app.config['GOOGLE_CSE_ID'] = options.google_cse_id
 
 api = Api(app)
-
-
-# print os.environ['FOO']
 
 
 
